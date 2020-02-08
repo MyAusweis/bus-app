@@ -1,6 +1,7 @@
 package com.workshop.sb.testworkshop.controller;
 
 import com.workshop.sb.testworkshop.model.request.DriverRequest;
+import com.workshop.sb.testworkshop.model.response.BaseResponse;
 import com.workshop.sb.testworkshop.model.response.DriverResponse;
 import com.workshop.sb.testworkshop.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,14 @@ public class DriverController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getDriverById(@PathVariable("id") int id) {
+    public ResponseEntity<BaseResponse> getDriverById(@PathVariable("id") int id) {
         DriverResponse driver = driverService.getDataDriverById(id);
         if (driver != null) {
-            return ResponseEntity.ok(driver);
+            BaseResponse response = new BaseResponse();
+            response.setStatus("Ok");
+            response.setResult("driver");
+            response.setMessage("success");
+            return ResponseEntity.ok(response);
         }
         return (ResponseEntity) ResponseEntity.badRequest();
     }
